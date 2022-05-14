@@ -9,24 +9,28 @@ import {TodoCreate} from '../components/todo-create'
 import isEmpty from 'lodash/isEmpty';
 import { TodosApi } from './api/todos-api';
 import { TodoDto } from './api/api-types';
+import { useState } from 'react'
 
 const Home: NextPage<TodoDto[],{}> = (todos: TodoDto[], error) => {
   if (!isEmpty(error)) {
     // console.log('error: ', error);
     return <div>An error occured: {error.message}</div>;
   }
+
+  const [todosArr, setTodosArr] = useState(Object.keys(todos).map((key: any) => { return todos[key]; }));
+  // const [todosArr, setTodosArr] = useState();
   
-  const handleGetTodos = async (e:any) => {
-    console.log('update todos clicked');
-    e.preventDefault();
+  const handleGetTodos = async () => {
+    // console.log('update todos clicked');
+    // e.preventDefault();
     try {
       todos = await TodosApi.getTodoList();
+      setTodosArr(Object.keys(todos).map((key: any) => { return todos[key]; }))
     } catch (error) {
       return { error };
     }
   };
 
-  const todosArr =  Object.keys(todos).map((key: any) => { return todos[key]; })
 
   return (
     <div className="container">
@@ -38,9 +42,12 @@ const Home: NextPage<TodoDto[],{}> = (todos: TodoDto[], error) => {
       </Head>
 
       <h1>To-Do List</h1>
-      <button type="button" className="btn btn-primary" onClick={handleGetTodos}>update todo list</button>
+      {/* <div>
+        <button type="button" className="btn btn-primary" onClick={handleGetTodos}>update todo list</button>
+      </div> */}
+
       <div>
-        <TodoCreate />
+        <TodoCreate onCreate={handleGetTodos} />
       </div>
 
       <div>
@@ -54,7 +61,7 @@ const Home: NextPage<TodoDto[],{}> = (todos: TodoDto[], error) => {
 Home.getInitialProps = async ctx => {
   try {
     const todosList = await TodosApi.getTodoList();
-    // console.log('todosList[0]: ', todosList[0]);
+    console.log('todosList[0]: ', todosList[0]);
     return todosList;
 
   } catch (error) {

@@ -18,7 +18,26 @@ export class TodosApi {
     return res.data;
   }
 
-  // public static createTodo(){}
+  public static async createTodo(todo : TodoDto): Promise<any>{
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/todos', 
+        {
+          // id: 1,
+          title: todo.title, 
+          description: todo.description, 
+          priority: todo.priority,
+          isDone: false, 
+          type: todo.type
+        });
+
+      // console.log('post todo ', response);
+      return response;
+    } catch (error) {
+      // console.log('error in create new todo', error);
+      return error;
+    }
+  }
 
   // public updateCourseLecture(
   //   {courseLectureId}: {courseLectureId: string | number},
