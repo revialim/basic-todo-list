@@ -8,10 +8,10 @@ import {TodoCreate} from '../components/todo-create'
 // import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import { TodosApi } from './api/todos-api';
-import { TodoDto } from './api/api-types';
+import { ResponseTodoDto } from './api/api-types';
 import { useState } from 'react'
 
-const Home: NextPage<TodoDto[],{}> = (todos: TodoDto[], error) => {
+const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) => {
   if (!isEmpty(error)) {
     // console.log('error: ', error);
     return <div>An error occured: {error.message}</div>;
@@ -51,7 +51,7 @@ const Home: NextPage<TodoDto[],{}> = (todos: TodoDto[], error) => {
       </div>
 
       <div>
-        <TodoList todos={todosArr}/>
+        <TodoList todos={todosArr} onChange={handleGetTodos}/>
       </div>
 
     </div>

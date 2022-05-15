@@ -1,19 +1,21 @@
 import { ReactNode } from 'react'
-import { TodoDto } from '../pages/api/api-types';
+import { ResponseTodoDto } from '../pages/api/api-types';
 import TodoElement from './todo-element';
 
 type TodoListProps = {
   // children?: ReactNode
-  todos: TodoDto[];
+  todos: ResponseTodoDto[];
+  onChange: () => void;
 }
 
 export const TodoList: React.FunctionComponent<TodoListProps> = props => {
   const {
-    todos
+    todos,
+    onChange
   } = props;
 
   console.log('TodoList -- todos ', todos);
-  const todoElements = todos.map((t) => (<TodoElement todoTitle={t.title} todoDesc={t.description} />))
+  const todoElements = todos.map((t) => (<TodoElement onChange={onChange} todoTitle={t.title} todoDesc={t.description} todoId={t.id} key={t.id} />))
     
   return (
     <div>
