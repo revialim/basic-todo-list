@@ -1,6 +1,7 @@
 // export interface TodoListDto {
 //   items: TodoDto[];
 // }
+export type oneThroughThree = 1 | 2 | 3;
 export interface CreateTodoDto {
   title: string;
   description: string;
@@ -8,7 +9,7 @@ export interface CreateTodoDto {
   /**
    * {"WORK":1,"PERSONAL":2,"IMPORTANT":3}
    */
-  type: 1 | 2 | 3 ;
+  type: oneThroughThree;
 }
 
 export interface ResponseTodoDto {
@@ -20,7 +21,7 @@ export interface ResponseTodoDto {
   /**
    * {"WORK":1,"PERSONAL":2,"IMPORTANT":3}
    */
-  type: 1 | 2 | 3 ;
+  type: oneThroughThree;
   createdAt?: Date;
   updatedAt?: Date;
 }

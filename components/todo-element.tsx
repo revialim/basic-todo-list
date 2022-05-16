@@ -1,31 +1,25 @@
-import { ReactNode, useState } from 'react'
-// import { TodoDto } from '../pages/api/api-types';
+import { useState } from 'react'
+import { ResponseTodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
 
 interface TodoElementProps {
-  // children?: ReactNode,
-  // todo: TodoDto,
-  todoTitle: string;
-  todoDesc: string;
-  todoId: number ;
+  todo: ResponseTodoDto;
   onChange: () => void;
 }
 
 export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const {
-    todoTitle,
-    todoDesc,
-    todoId,
+    todo,
     onChange
   } = props;
 
   const [editMode, setEditMode] = useState(false);
-  const [todoTitleEdit, setTodoTitleEdit] = useState(todoTitle);
-  const [todoDescEdit, setTodoDescEdit] = useState(todoDesc);
+  const [todoTitleEdit, setTodoTitleEdit] = useState(todo.title);
+  const [todoDescEdit, setTodoDescEdit] = useState(todo.description);
 
   const handleDelete = async (e:any) => {
     e.preventDefault();
-    await TodosApi.deleteTodo(todoId).then((res) => {
+    await TodosApi.deleteTodo(todo.id).then((res) => {
       console.log('handleDelete res', res);
       onChange();
     });;
@@ -35,7 +29,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
     e.preventDefault();
 
     await TodosApi.updateTodo(
-      todoId,
+      todo.id,
       {
         title: todoTitleEdit,
         description: todoDescEdit,
@@ -51,14 +45,18 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const handleTitleChange = (e: any) => {setTodoTitleEdit(e.target.value)};
   const handleDescChange = (e: any) => {setTodoDescEdit(e.target.value)};
   
-  if(!editMode){
+  if(!editMode){ // VIEW MODE
     return (
       <div className="card" style={{width: '30rem'}}>
   
         <div className="card-body">
-          <span>{todoId}</span>
-          <h5 className="card-title">{todoTitle}</h5>
-          <p className="card-text">{todoDesc}</p>
+          <span className="badge rounded-pill bg-light text-dark">{todo.id}</span>
+          <span className="badge bg-info text-dark">Type: {todo.type}</span>
+          <h5 className="card-title">
+            {todo.title}
+          </h5>
+          <p className="card-text">{todo.description}</p>
+          <p>Priority: {todo.priority}</p>
   
           <button type="button" className="btn btn-secondary" onClick={e => setEditMode(true)}>Edit</button>
           <button type="button" className="btn btn-danger" onClick={e => handleDelete(e)}>Delete</button>
@@ -66,12 +64,12 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   
       </div>
     )
-  } else {
+  } else { // EDIT MODE
     return (
       <div className="card" style={{width: '30rem'}}>
 
         <div className="card-body">
-          <span>{todoId}</span>
+          <span>{todo.id}</span>
           <div className="input-group input-group-sm mb-3">
               <span className="input-group-text" id="inputGroup-sizing-sm">Title</span>
               <input type="text" defaultValue={todoTitleEdit} onChange={handleTitleChange} className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"/>

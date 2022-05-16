@@ -1,5 +1,6 @@
 // import axios from 'axios';
 import { ReactNode, useState } from 'react';
+import { oneThroughThree } from '../pages/api/api-types';
 // import { TodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
 
@@ -16,7 +17,8 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
   const [inputFieldVisibility, setInputFieldVisibility] = useState(false);
   const [todoTitle, setTodoTitle] = useState('input title');
   const [todoDescription, setTodoDescription] = useState('input description');
-  // const [todoPriority, setTodoPriority] = useState(0);
+  const [todoPriority, setTodoPriority] = useState(1);
+  const [todoType, setTodoType] = useState<oneThroughThree>(1);
 
   const handleSubmit = async (e:any) => {
     // console.log('save button / handleSubmit clicked');
@@ -26,8 +28,8 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
     await TodosApi.createTodo({
       title: todoTitle,
       description: todoDescription,
-      priority: 9,
-      type:1,
+      priority: todoPriority,
+      type: todoType,
     }).then((res) => {
       // console.log('handleSubmit res', res);
       onCreate();
@@ -36,6 +38,8 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
 
   const handleTitleChange = (e: any) => {setTodoTitle(e.target.value)};
   const handleDescChange = (e: any) => {setTodoDescription(e.target.value)};
+  const handlePriorityChange = (e: any) => {setTodoPriority(e.target.value)};
+  const handleTypeChange = (e: any) => {setTodoType(e.target.value)};
 
 
   if(inputFieldVisibility){
@@ -52,7 +56,19 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
               <span className="input-group-text" >Description</span>
               <textarea defaultValue='' onChange={handleDescChange} className="form-control" aria-label="With textarea" />
           </div>
-          {/* <button type="button" className="btn btn-secondary">Cancel</button> */}
+          <div>
+            <label htmlFor="customRange2" className="form-label">Priority: {todoPriority}</label>
+            <input type="range" className="form-range" min="1" max="10" id="customRange2" onChange={handlePriorityChange}/>
+          </div>
+          <div>
+            <p>Type: {todoType}</p>
+            <select className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={handleTypeChange}>
+              <option value="1">work</option>
+              <option value="2">personal</option>
+              <option value="3">important</option>
+            </select>
+          </div>
+          <p className="card-text"></p>{/* hacky way to add space between select element and buttons */}
           <button type="button" className="btn btn-secondary" onClick={e => setInputFieldVisibility(false)}>Cancel</button>
           <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save</button>
         </div>

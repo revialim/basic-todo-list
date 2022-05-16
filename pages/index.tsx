@@ -21,7 +21,7 @@ const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) =
   // const [todosArr, setTodosArr] = useState();
   
   const handleGetTodos = async () => {
-    // console.log('update todos clicked');
+    // console.log('update todos after change in create or todolist edit');
     // e.preventDefault();
     try {
       todos = await TodosApi.getTodoList();
