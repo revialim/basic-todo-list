@@ -31,8 +31,13 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
       priority: todoPriority,
       type: todoType,
     }).then((res) => {
-      // console.log('handleSubmit res', res);
       onCreate();
+      //reset create element
+      setInputFieldVisibility(false);
+      setTodoTitle('');
+      setTodoDescription('');
+      setTodoPriority(1);
+      setTodoType(1);
     });
   };
 
@@ -58,7 +63,7 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
           </div>
           <div>
             <label htmlFor="customRange2" className="form-label">Priority: {todoPriority}</label>
-            <input type="range" className="form-range" min="1" max="10" id="customRange2" onChange={handlePriorityChange}/>
+            <input type="range" className="form-range" defaultValue={todoPriority} min="1" max="10" id="customRange2" onChange={handlePriorityChange}/>
           </div>
           <div>
             <p>Type: {todoType}</p>
