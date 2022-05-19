@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ResponseTodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
+import { TodoIsDoneCheck } from './todo-form-elements';
 
 interface TodoElementProps {
   todo: ResponseTodoDto;
@@ -18,7 +19,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const [todoDescEdit, setTodoDescEdit] = useState(todo.description);
   const [todoPriorityEdit, setTodoPriorityEdit] = useState(todo.priority);
   const [todoTypeEdit, setTodoTypeEdit] = useState(todo.type);
-  // const [todoIsDone, setTodoIsDone] = useState(todo.isDone);
+  const [todoIsDone, setTodoIsDone] = useState(todo.isDone);
 
   const handleDelete = async (e:any) => {
     e.preventDefault();
@@ -45,6 +46,18 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
       onChange();
     });
   };
+
+  const handleIsDoneChange = async (e: any) => {
+    // console.log("🚀 ~ file: todo-element.tsx ~ line 55 ~ handleIsDoneChange ~ e.target", e.target)
+    if(todoIsDone){
+      setTodoIsDone(false);
+      await TodosApi.updateTodoIsDone(todo.id, false).then(res => (onChange()));
+    } else {
+      setTodoIsDone(true);
+      await TodosApi.updateTodoIsDone(todo.id, true).then(res => (onChange()));
+    }
+  }
+
   const handleTitleChange = (e: any) => {setTodoTitleEdit(e.target.value)};
   const handleDescChange = (e: any) => {setTodoDescEdit(e.target.value)};
   const handlePriorityChange = (e: any) => {setTodoPriorityEdit(e.target.value)};
@@ -62,7 +75,9 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
           </h5>
           <p className="card-text">{todo.description}</p>
           <p>Priority: {todo.priority}</p>
-  
+
+          <TodoIsDoneCheck isDone={todoIsDone} onChange={handleIsDoneChange} />
+
           <button type="button" className="btn btn-secondary" onClick={e => setEditMode(true)}>Edit</button>
           <button type="button" className="btn btn-danger" onClick={e => handleDelete(e)}>Delete</button>
         </div>
@@ -104,5 +119,3 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   }
   
 }
-
-export default TodoElement

@@ -38,6 +38,17 @@ export class TodosApi {
     }
   }
 
+  public static async updateTodoIsDone(id: number, isDone : boolean): Promise<any>{
+    try {
+      const res = await axios.put(`http://localhost:3001/todos/isDone/${id}/${isDone}`);
+      // console.log('post todo ', res);
+      return res;
+    } catch (error) {
+      // console.log('error in create new todo', error);
+      return error;
+    }
+  }
+
   public static async updateTodo(id: number, todo : CreateTodoDto): Promise<any>{
     try {
       const res = await axios.put(

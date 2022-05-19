@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ResponseTodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
-import TodoElement from './todo-element';
+import { TodoElement } from './todo-element';
 
 type TodoListProps = {
   todoCreated: boolean;
@@ -26,6 +26,7 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
   const [todoElements, setTodoElements] = useState(todos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));
   const [upActive, setUpActive] = useState(false);
   const [todoElemChange, setTodoElemChange] = useState(false);
+  // const [showOnlyUndone, setShowOnlyUndone] = useState(false);
 
   useEffect(() => {
     TodosApi.getTodoList()
