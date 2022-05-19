@@ -5,6 +5,7 @@ import {TodoCreate} from '../components/todo-create'
 import isEmpty from 'lodash/isEmpty';
 import { ResponseTodoDto } from './api/api-types';
 import { useState } from 'react'
+import { TodoTypesEditor } from '../components/todo-types-editor';
 
 const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) => {
   if (!isEmpty(error)) {
@@ -36,6 +37,10 @@ const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) =
 
       <div>
         <TodoList todoCreated={todoCreated}/>
+      </div>
+
+      <div>
+      <TodoTypesEditor />
       </div>
 
     </div>

@@ -9,7 +9,7 @@ export interface CreateTodoDto {
   /**
    * {"WORK":1,"PERSONAL":2,"IMPORTANT":3}
    */
-  type: oneThroughThree;
+  type: number;
 }
 
 export interface ResponseTodoDto {
@@ -21,7 +21,7 @@ export interface ResponseTodoDto {
   /**
    * {"WORK":1,"PERSONAL":2,"IMPORTANT":3}
    */
-  type: oneThroughThree;
+  type: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
