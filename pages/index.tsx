@@ -7,17 +7,15 @@ import { ResponseTodoDto } from './api/api-types';
 import { useState } from 'react'
 
 const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) => {
+  const [todoCreated, setTodoCreated] = useState(false);
+
   if (!isEmpty(error)) {
     return <div>An error occured: {error.message}</div>;
   }
 
-  const [todoCreated, setTodoCreated] = useState(false);
-
   const handleCreate = () => {
     todoCreated? setTodoCreated(false): setTodoCreated(true);
   }
-
-
 
   return (
     <div className="container">

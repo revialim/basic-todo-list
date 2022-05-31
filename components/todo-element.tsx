@@ -64,12 +64,14 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const handleTypeChange = (e: any) => {setTodoTypeEdit(e.target.value)};
   
   if(!editMode){ // VIEW MODE
+    const todoTypeText = todo.type == 1? 'work' : todo.type == 2? 'personal' : 'important' ;
+
     return (
       <div className="card" style={{width: '30rem'}}>
   
         <div className="card-body">
           <span className="badge rounded-pill bg-light text-dark">{todo.id}</span>
-          <span className="badge bg-info text-dark">Type: {todo.type}</span>
+          <span className="badge bg-info text-dark">{todoTypeText}</span>
           <h5 className="card-title">
             {todo.title}
           </h5>
@@ -104,7 +106,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
           </div>
           <div>
             <p>Type: {todoTypeEdit}</p>
-            <select className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={handleTypeChange}>
+            <select defaultValue={todoTypeEdit} className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={handleTypeChange}>
               <option value="1">work</option>
               <option value="2">personal</option>
               <option value="3">important</option>

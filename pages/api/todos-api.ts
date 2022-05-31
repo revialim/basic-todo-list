@@ -15,7 +15,7 @@ export class TodosApi {
 
   public static async getTodoList(): Promise<ResponseTodoDto[]> {
     const res = await axios.get(`${server}todos`);
-    console.log('TodosApi => getTodoList => res.data', res.data);
+    // console.log('TodosApi => getTodoList => res.data', res.data);
     return res.data;
   }
 

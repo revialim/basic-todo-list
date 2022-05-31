@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ResponseTodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
 import { TodoElement } from './todo-element';
@@ -12,14 +12,6 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
     todoCreated
   } = props;
 
-  const onChange = () => {
-    if(todoElemChange){
-      setTodoElemChange(false);
-    } else {
-      setTodoElemChange(true);
-    }
-  }
-
   const todos: ResponseTodoDto[] = [];
 
   const [selectedType, setSelectedType] = useState(null);
@@ -27,6 +19,14 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
   const [upActive, setUpActive] = useState(false);
   const [todoElemChange, setTodoElemChange] = useState(false);
   // const [showOnlyUndone, setShowOnlyUndone] = useState(false);
+
+  const onChange = useCallback(() => {
+    if(todoElemChange){
+      setTodoElemChange(false);
+    } else {
+      setTodoElemChange(true);
+    }
+  }, [todoElemChange])
 
   useEffect(() => {
     TodosApi.getTodoList()
@@ -39,9 +39,8 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
             const sortedTodos = resTodos.sort((t1, t2) => t2.priority - t1.priority);
             setTodoElements(sortedTodos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));
           }
-        } else {
+        } else {//if a type is selected
           const selectedTodos = resTodos.filter((t) =>  t.type == selectedType);
-          console.log("🚀 ~ file: todo-list.tsx ~ line 43 ~ useEffect ~ selectedTodos", selectedTodos)
           if(upActive){
             const sortedTodos = selectedTodos.sort((t1, t2) => t1.priority - t2.priority);
             setTodoElements(sortedTodos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));
@@ -52,7 +51,7 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
         }
       })
       .catch(err => console.error(err));
-  }, [upActive, selectedType, todoElemChange, todoCreated]);
+  }, [upActive, selectedType, todoElemChange, todoCreated, onChange]);
 
   const handleTypeChange = (e: any) => {
     const selected = (e.target.value);
