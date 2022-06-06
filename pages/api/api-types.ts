@@ -1,6 +1,3 @@
-// export interface TodoListDto {
-//   items: TodoDto[];
-// }
 export type oneThroughThree = 1 | 2 | 3;
 export interface CreateTodoDto {
   title: string;

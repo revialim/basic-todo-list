@@ -31,7 +31,7 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
   useEffect(() => {
     TodosApi.getTodoList()
       .then(resTodos => {
-        if(selectedType == 'all types' || selectedType == null){
+        if(selectedType === 'all types' || selectedType === null){
           if(upActive){
             const sortedTodos = resTodos.sort((t1, t2) => t1.priority - t2.priority);
             setTodoElements(sortedTodos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));
@@ -40,7 +40,7 @@ export const TodoList: React.FunctionComponent<TodoListProps> = props => {
             setTodoElements(sortedTodos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));
           }
         } else {//if a type is selected
-          const selectedTodos = resTodos.filter((t) =>  t.type == selectedType);
+          const selectedTodos = resTodos.filter((t) =>  t.type === selectedType);
           if(upActive){
             const sortedTodos = selectedTodos.sort((t1, t2) => t1.priority - t2.priority);
             setTodoElements(sortedTodos.map((t) => (<TodoElement onChange={onChange} todo={t} key={t.id} />)));

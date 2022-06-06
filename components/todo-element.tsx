@@ -24,12 +24,10 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const handleDelete = async (e:any) => {
     e.preventDefault();
     await TodosApi.deleteTodo(todo.id).then((res) => {
-      console.log('handleDelete res', res);
       onChange();
     });;
   }
   const handleSubmit = async (e:any) => {
-    console.log('TodoElement => handleSubmit =>> todoTitleEdit ', todoTitleEdit);
     e.preventDefault();
 
     await TodosApi.updateTodo(
@@ -41,14 +39,12 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
         type: todoTypeEdit,
       }
     ).then((res) => {
-      // console.log('todoElement => handleSubmit => res', res);
       setEditMode(false);
       onChange();
     });
   };
 
   const handleIsDoneChange = async (e: any) => {
-    // console.log("🚀 ~ file: todo-element.tsx ~ line 55 ~ handleIsDoneChange ~ e.target", e.target)
     if(todoIsDone){
       setTodoIsDone(false);
       await TodosApi.updateTodoIsDone(todo.id, false).then(res => (onChange()));
@@ -64,7 +60,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const handleTypeChange = (e: any) => {setTodoTypeEdit(e.target.value)};
   
   if(!editMode){ // VIEW MODE
-    const todoTypeText = todo.type == 1? 'work' : todo.type == 2? 'personal' : 'important' ;
+    const todoTypeText = todo.type === 1? 'work' : todo.type === 2? 'personal' : 'important' ;
 
     return (
       <div className="card" style={{width: '30rem'}}>

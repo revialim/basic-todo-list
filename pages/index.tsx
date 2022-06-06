@@ -23,7 +23,6 @@ const Home: NextPage<ResponseTodoDto[],{}> = (todos: ResponseTodoDto[], error) =
         <title>Basic To-Do List</title>
         <meta name="description" content="a next app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
       <h1>To-Do List</h1>

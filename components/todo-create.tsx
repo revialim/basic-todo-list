@@ -1,7 +1,5 @@
-// import axios from 'axios';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { oneThroughThree } from '../pages/api/api-types';
-// import { TodoDto } from '../pages/api/api-types';
 import { TodosApi } from '../pages/api/todos-api';
 
 
@@ -21,8 +19,6 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
   const [todoType, setTodoType] = useState<oneThroughThree>(1);
 
   const handleSubmit = async (e:any) => {
-    // console.log('save button / handleSubmit clicked');
-    // console.log('handleSubmit =>> todoTitle ', todoTitle);
     e.preventDefault();
 
     await TodosApi.createTodo({
