@@ -17,6 +17,7 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
   const [todoDescription, setTodoDescription] = useState('input description');
   const [todoPriority, setTodoPriority] = useState(1);
   const [todoType, setTodoType] = useState<oneThroughThree>(1);
+  const [todoDeadline, setTodoDeadline] = useState<Date>(new Date('2020-01-01'))
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
       description: todoDescription,
       priority: todoPriority,
       type: todoType,
+      deadline: todoDeadline
     }).then((res) => {
       onCreate();
       //reset create element
@@ -34,6 +36,7 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
       setTodoDescription('');
       setTodoPriority(1);
       setTodoType(1);
+      setTodoDeadline(new Date(Date.now()))
     });
   };
 
@@ -41,6 +44,11 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
   const handleDescChange = (e: any) => {setTodoDescription(e.target.value)};
   const handlePriorityChange = (e: any) => {setTodoPriority(e.target.value)};
   const handleTypeChange = (e: any) => {setTodoType(e.target.value)};
+  const handleDeadLineChange = (e: any) => {
+    console.log("🚀 ~ file: todo-create.tsx ~ line 48 ~ handleDeadLineChange ~ e", e.target.value)
+    setTodoDeadline(new Date(e.target.value))
+    // console.log("🚀 ~ file: todo-create.tsx ~ line 48 ~ handleDeadLineChange ~ todoDeadline", todoDeadline)
+  };
 
 
   if(inputFieldVisibility){
@@ -68,6 +76,10 @@ export const TodoCreate: React.FunctionComponent<TodoCreateProps> = props => {
               <option value="2">personal</option>
               <option value="3">important</option>
             </select>
+          </div>
+          <div>
+            Deadline: {todoDeadline.toDateString()} <br/>
+            <input type="date" value={todoDeadline.toISOString().slice(0,10)} onChange={handleDeadLineChange}/>
           </div>
           <p className="card-text"></p>{/* hacky way to add space between select element and buttons */}
           <button type="button" className="btn btn-secondary" onClick={e => setInputFieldVisibility(false)}>Cancel</button>

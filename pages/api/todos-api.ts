@@ -26,7 +26,8 @@ export class TodosApi {
           description: todo.description, 
           priority: todo.priority,
           isDone: false, 
-          type: todo.type
+          type: todo.type,
+          deadline: todo.deadline
         });
       return res;
     } catch (error) {
@@ -51,7 +52,8 @@ export class TodosApi {
           title: todo.title, 
           description: todo.description, 
           priority: todo.priority,
-          type: todo.type
+          type: todo.type,
+          deadline: todo.deadline
         });
       return res;
     } catch (error) {

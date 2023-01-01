@@ -20,6 +20,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const [todoPriorityEdit, setTodoPriorityEdit] = useState(todo.priority);
   const [todoTypeEdit, setTodoTypeEdit] = useState(todo.type);
   const [todoIsDone, setTodoIsDone] = useState(todo.isDone);
+  const [todoDeadline, setTodoDeadline] = useState<Date>(new Date(todo.deadline));
 
   const handleDelete = async (e:any) => {
     e.preventDefault();
@@ -37,6 +38,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
         description: todoDescEdit,
         priority: todoPriorityEdit,
         type: todoTypeEdit,
+        deadline: todoDeadline,
       }
     ).then((res) => {
       setEditMode(false);
@@ -58,6 +60,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
   const handleDescChange = (e: any) => {setTodoDescEdit(e.target.value)};
   const handlePriorityChange = (e: any) => {setTodoPriorityEdit(e.target.value)};
   const handleTypeChange = (e: any) => {setTodoTypeEdit(e.target.value)};
+  const handleDeadLineChange = (e: any) => {setTodoDeadline(new Date(e.target.value))};
   
   if(!editMode){ // VIEW MODE
     const todoTypeText = todo.type === 1? 'work' : todo.type === 2? 'personal' : 'important' ;
@@ -73,6 +76,7 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
           </h5>
           <p className="card-text">{todo.description}</p>
           <p>Priority: {todo.priority}</p>
+          <p>Deadline: {todo.deadline.toString()}</p>
 
           <TodoIsDoneCheck isDone={todoIsDone} onChange={handleIsDoneChange} />
 
@@ -107,6 +111,10 @@ export const TodoElement: React.FunctionComponent<TodoElementProps> = props => {
               <option value="2">personal</option>
               <option value="3">important</option>
             </select>
+          </div>
+          <div>
+            Deadline: {todoDeadline.toDateString()} <br/>
+            <input type="date" value={todoDeadline.toISOString().slice(0,10)} onChange={handleDeadLineChange}/>
           </div>
           <button type="button" className="btn btn-secondary" onClick={e => setEditMode(false)}>Cancel</button>
           <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save</button>
